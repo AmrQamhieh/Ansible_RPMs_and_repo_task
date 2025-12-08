@@ -38,9 +38,8 @@
 - name: Restore SELinux contexts properly
   command: restorecon -Rv "{{ repo_dir }}"
 
-- name: Open port 80 in firewalld
-  firewalld:
-    port: 80/tcp
-    permanent: yes
-    state: enabled
-    immediate: yes
+- name: Open port 80/tcp permanently in firewalld
+  command: firewall-cmd --permanent --add-port=80/tcp
+
+- name: Reload firewalld
+  command: firewall-cmd --reload

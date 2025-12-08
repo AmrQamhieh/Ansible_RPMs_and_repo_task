@@ -1,0 +1,7 @@
+---
+- name: Install Zabbix agent packages
+  package: 
+    name:
+      - zabbix
+      - zabbix-agent
+    state: present  

@@ -1,6 +1,6 @@
 ---
 - name: Prepare Internal YUM repository
-  hosts: local
+  hosts: zabbix-server
   become: yes
 
   vars:

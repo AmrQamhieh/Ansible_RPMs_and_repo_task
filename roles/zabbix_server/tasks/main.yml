@@ -1,0 +1,12 @@
+---
+- name: Install Zabbix server and web packages
+  package:
+    name:
+      - zabbix-server-mysql
+      - zabbix-agent
+      - zabbix-web
+      - zabbix-web-mysql
+      - php
+      - php-fpm
+      - php-mysqlnd
+    state: present

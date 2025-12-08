@@ -1,0 +1,13 @@
+- name: Install Zabbix server and web on VM server
+  hosts: zabbix-server
+  become: true
+  roles:
+    - zabbix_server
+
+- name: Install Zabbix agent on Client VM
+  hosts: zabbix-agent
+  become: true
+  roles:
+    - zabbix_agent
+
+
