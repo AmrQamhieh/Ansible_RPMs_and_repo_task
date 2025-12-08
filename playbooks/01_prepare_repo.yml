@@ -1,0 +1,10 @@
+---
+- name: Prepare Internal YUM repository
+  hosts: local
+  become: yes
+
+  vars:
+    repo_dir: /var/www/html/repo
+
+  roles:
+    - repo

@@ -1,0 +1,46 @@
+---
+- name: Install Apache (httpd)
+  package:
+    name: httpd
+    state: present
+
+- name: Start and enable httpd
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Ensure repo directory exists
+  file:
+    path: "{{ repo_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Copy RPM files into repo directory
+  copy:
+    src: rpms/
+    dest: "{{ repo_dir }}/"
+    mode: '0644'
+
+- name: Install createrepo
+  package:
+    name: createrepo
+    state: present
+
+- name: Run createrepo
+  command: createrepo "{{ repo_dir }}"
+  args:
+    creates: "{{ repo_dir }}/repodata"
+
+- name: Set SELinux context so Apache can read repo
+  command: chcon -R -t httpd_sys_content_t "{{ repo_dir }}"
+
+- name: Restore SELinux contexts properly
+  command: restorecon -Rv "{{ repo_dir }}"
+
+- name: Open port 80 in firewalld
+  firewalld:
+    port: 80/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
