@@ -10,6 +10,24 @@ Everything is reproducible with one command.
 
 ---
 
+## 🧩 Requirements
+
+- RHEL 9 / Rocky 9 / AlmaLinux 9
+- Ansible installed on control machine
+- RPMs placed in `rpms/` directory
+- SSH access to all hosts
+
+---
+
+## 📦 What This Repository Solves
+
+- No internet required for installation  
+- Fully automated Zabbix deployment  
+- Repeatable and consistent across environments  
+- Clear separation of tasks using proper Ansible roles  
+
+---
+
 ## 🚀 How the Automation Works
 
 ### **1️⃣ Prepare Internal Repository**
@@ -52,27 +70,6 @@ At this point, Zabbix backend + frontend are fully operational.
 
 ---
 
-## 🌐 Accessing the Zabbix Frontend
-
-Once the playbooks finish:
-
-### **If using NAT Network**  
-Set port forwarding for your VM:
-```
-| Host | Guest |
-|------|--------|
-| 127.0.0.1:8080 | 192.168.1.10:80 |
-```
-Then open:
-
-```
-http://localhost:8080/zabbix
-```
-
-You will see the Zabbix setup wizard.
-
----
-
 ## ▶️ How to Run the Automation
 
 ### **1. Edit your inventory**
@@ -95,21 +92,24 @@ ansible-playbook -i inventory.txt site.yml -K
 
 ---
 
-## 🧩 Requirements
+## 🌐 Accessing the Zabbix Frontend
 
-- RHEL 9 / Rocky 9 / AlmaLinux 9
-- Ansible installed on control machine
-- RPMs placed in `rpms/` directory
-- SSH access to all hosts
+Once the playbooks finish:
 
----
+### **If using NAT Network**  
+Set port forwarding for your VM:
+```
+|     Host       |     Guest       |
+|--------------------------------- |
+| 127.0.0.1:8080 | 192.168.1.10:80 |
+```
+Then open:
 
-## 📦 What This Repository Solves
+```
+http://localhost:8080/zabbix
+```
 
-- No internet required for installation  
-- Fully automated Zabbix deployment  
-- Repeatable and consistent across environments  
-- Clear separation of tasks using proper Ansible roles  
+You will see the Zabbix setup wizard.
 
 ---
 
