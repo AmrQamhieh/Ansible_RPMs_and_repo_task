@@ -1,12 +1,18 @@
 - name: Install Zabbix server and web on VM server
   hosts: zabbix-server
   become: true
+  collections:
+    - ansible.posix
+
   roles:
     - zabbix_server
 
 - name: Install Zabbix agent on Client VM
   hosts: zabbix-agent
+  collections:
+    - ansible.posix
   become: true
+  
   roles:
     - zabbix_agent
 

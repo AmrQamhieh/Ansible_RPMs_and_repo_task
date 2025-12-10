@@ -1,6 +1,6 @@
 ---
 - name: Prepare Internal YUM repository
-  hosts: zabbix-server
+  hosts: local
   become: yes
 
   vars:
@@ -16,9 +16,9 @@
   become: yes
 
   vars:
-    repo_server_ip: 192.168.1.10
+    repo_server_host: "{{ groups['local'][0] }}"
     local_repo_name: local-zabbix
-    local_repo_baseurl: "http://{{ repo_server_ip }}/repo"
+    local_repo_baseurl: "http://{{ hostvars[repo_server_host].ansible_host | default(repo_server_host) }}/repo"
 
   tasks:
     - name: Configure local YUM repo

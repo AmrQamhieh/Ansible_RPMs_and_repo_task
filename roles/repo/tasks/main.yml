@@ -27,19 +27,24 @@
     name: createrepo
     state: present
 
-- name: Run createrepo
+- name: Run createrepo and ensure repo metadata exists
   command: createrepo "{{ repo_dir }}"
   args:
     creates: "{{ repo_dir }}/repodata"
 
-- name: Set SELinux context so Apache can read repo
-  command: chcon -R -t httpd_sys_content_t "{{ repo_dir }}"
+- name: Define SELinux context for repo dir (persistent)
+  community.general.sefcontext:
+    target: "{{ repo_dir }}(/.*)?"
+    setype: httpd_sys_content_t
+    state: present
 
 - name: Restore SELinux contexts properly
   command: restorecon -Rv "{{ repo_dir }}"
 
-- name: Open port 80/tcp permanently in firewalld
-  command: firewall-cmd --permanent --add-port=80/tcp
+- name: Open HTTP port 80/tcp in firewalld (permanent + immediate)
+  ansible.posix.firewalld:
+    port: 80/tcp
+    state: enabled
+    permanent: yes
+    immediate: yes
 
-- name: Reload firewalld
-  command: firewall-cmd --reload

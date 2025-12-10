@@ -1,7 +1,9 @@
 ---
 - name: Install Zabbix server and web packages
   package:
-    name:
+    name: "{{item}}"
+    state: present
+  loop:
       - zabbix-server-mysql
       - zabbix-agent
       - zabbix-web
@@ -10,12 +12,15 @@
       - php
       - php-fpm
       - php-mysqlnd
-    state: present
 
-- name: Open Zabbix server port
-  command: firewall-cmd --permanent --add-port=10051/tcp
+- name: Open Zabbix server port 
+  firewalld:
+    port: 10051/tcp
+    state: enabled
+    permanent: true
+    immediate: true
 
-- name: reload firewall
-  command: firewall-cmd --reload
+
+
 
   

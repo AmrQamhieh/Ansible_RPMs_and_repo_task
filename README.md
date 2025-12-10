@@ -72,7 +72,30 @@ At this point, Zabbix backend + frontend are fully operational.
 
 ## ▶️ How to Run the Automation
 
-### **1. Edit your inventory**
+### Install Required Ansible Collections (IMPORTANT)
+
+This project uses modules that are not included in ansible-core.
+You must install the following collections on your Ansible control node before running the playbooks:
+```
+ansible-galaxy collection install ansible.posix
+ansible-galaxy collection install community.general
+```
+These collections provide:
+
+ansible.posix.firewalld → opening firewall ports
+
+community.general.sefcontext → managing SELinux context mappings
+
+If these collections are missing, you may encounter errors like:
+
+```vbnet
+ERROR! couldn't resolve module/action 'firewalld'
+ERROR! community.general.sefcontext was not found
+
+```
+Once installed, the playbooks and roles will use these modules normally.
+
+### **. Edit your inventory**
 `inventory.txt` must contain something like:
 
 ```
@@ -83,7 +106,7 @@ At this point, Zabbix backend + frontend are fully operational.
 192.168.1.11
 ```
 
-### **2. Run the full setup**
+### **. Run the full setup**
 ```bash
 ansible-playbook -i inventory.txt site.yml -K
 ```

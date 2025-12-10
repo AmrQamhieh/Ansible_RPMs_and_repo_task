@@ -12,7 +12,10 @@
     enabled: yes
 
 - name: Open Zabbix agent port
-  command: firewall-cmd --permanent --add-port=10050/tcp
+  firewalld:
+    port: 10050/tcp
+    state: enabled
+    permanent: true
+    immediate: true  
 
-- name: Reload Firewalld
-  command: firewall-cmd --reload
+
